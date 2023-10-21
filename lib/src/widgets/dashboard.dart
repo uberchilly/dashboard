@@ -344,7 +344,6 @@ class _DashboardState<T extends DashboardItem> extends State<Dashboard<T>>
         widget
             .dashboardItemController.itemStorageDelegate!.layoutsBySlotCount) {
 
-      widget.dashboardItemController.forceUpdate = false;
       _reloading = true;
       _reloadFor = widget.slotCount;
       widget.dashboardItemController._items.clear();
@@ -380,6 +379,8 @@ class _DashboardState<T extends DashboardItem> extends State<Dashboard<T>>
               slotCount: widget.slotCount);
         }
       }
+
+      widget.dashboardItemController.forceUpdate = false;
     }
 
     return LayoutBuilder(builder: (context, constrains) {
