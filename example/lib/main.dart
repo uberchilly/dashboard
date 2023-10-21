@@ -155,9 +155,16 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                 setState(() {
                   refreshing = true;
                 });
-                storage = MyItemStorage();
-                itemController = DashboardItemController.withDelegate(
-                    itemStorageDelegate: storage);
+                // storage = MyItemStorage();
+                // itemController = DashboardItemController.withDelegate(
+                //     itemStorageDelegate: storage);
+
+
+                itemController.clear();
+                await storage.clear();
+
+                itemController.forceRefreshItems();
+
                 Future.delayed(const Duration(milliseconds: 150)).then((value) {
                   setState(() {
                     refreshing = false;

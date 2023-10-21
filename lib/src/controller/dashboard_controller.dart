@@ -152,8 +152,15 @@ class DashboardItemController<T extends DashboardItem> with ChangeNotifier {
 
   Duration? _timeout;
 
+  bool forceUpdate = false;
+
+  FutureOr<void> forceRefreshItems(){
+    forceUpdate = true;
+    return _loadItems(_layoutController!.slotCount);
+  }
+
   FutureOr<void> _loadItems(int slotCount) {
-    var ftr = itemStorageDelegate!._getAllItems(slotCount);
+    var ftr = itemStorageDelegate!._getAllItems(slotCount, force: forceUpdate);
     if (ftr is Future<List<T>>) {
       if (_asyncSnap == null) {
         _asyncSnap = ValueNotifier(const AsyncSnapshot.waiting());

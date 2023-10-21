@@ -339,10 +339,12 @@ class _DashboardState<T extends DashboardItem> extends State<Dashboard<T>>
     bool differentReload = _reloadFor != widget.slotCount;
     if (_layoutController._isAttached &&
         (!_reloading || differentReload) &&
-        _layoutController.slotCount != widget.slotCount &&
+        (_layoutController.slotCount != widget.slotCount || widget.dashboardItemController.forceUpdate) &&
         _withDelegate &&
         widget
             .dashboardItemController.itemStorageDelegate!.layoutsBySlotCount) {
+
+      widget.dashboardItemController.forceUpdate = false;
       _reloading = true;
       _reloadFor = widget.slotCount;
       widget.dashboardItemController._items.clear();
