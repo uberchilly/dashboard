@@ -44,10 +44,10 @@ abstract class DashboardItemStorageDelegate<T extends DashboardItem> {
   FutureOr<List<T>> _getAllItems(int slotCount, {bool force = false}) {
     var sc = layoutsBySlotCount ? slotCount : -1;
 
-    if (!cacheItems || force) {
+    if (!cacheItems) {
       return getAllItems(slotCount);
     } else {
-      if (_items[sc] != null) {
+      if (_items[sc] != null && _items[sc]!.values.isNotEmpty && !force) {
         return _items[sc]!.values.toList();
       } else {
         var itemsFtrOr = getAllItems(slotCount);

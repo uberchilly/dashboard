@@ -154,9 +154,8 @@ class DashboardItemController<T extends DashboardItem> with ChangeNotifier {
 
   bool forceUpdate = false;
 
-  FutureOr<void> forceRefreshItems(){
+  void forceRefreshItems(){
     forceUpdate = true;
-    return _loadItems(_layoutController!.slotCount);
   }
 
   FutureOr<void> _loadItems(int slotCount) {
