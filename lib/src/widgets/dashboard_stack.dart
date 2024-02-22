@@ -282,14 +282,19 @@ class _DashboardStackState<T extends DashboardItem> extends State<_DashboardStac
   void setSpeed(Offset global) {
     var last = min((height - global.dy), global.dy);
     var m = global.dy < 50 ? -1 : 1;
-    if (last < 10) {
-      speed = 0.3 * m;
-    } else if (last < 20) {
-      speed = 0.1 * m;
-    } else if (last < 50) {
-      speed = 0.05 * m;
-    } else {
+
+    if (_isResizingHorizontally) {
       speed = 0;
+    } else {
+      if (last < 10) {
+        speed = 0.3 * m;
+      } else if (last < 20) {
+        speed = 0.1 * m;
+      } else if (last < 50) {
+        speed = 0.05 * m;
+      } else {
+        speed = 0;
+      }
     }
     scroll();
   }
@@ -382,6 +387,19 @@ class _DashboardStackState<T extends DashboardItem> extends State<_DashboardStac
   _ItemCurrentLayout? _editing;
 
   bool get _editingResize => _holdDirections != null;
+
+  bool get _isResizingHorizontally {
+    if (_holdDirections == null) {
+      return false;
+    }
+
+    if (_holdDirections!.contains(AxisDirection.up) || _holdDirections!.contains(AxisDirection.down)) {
+      return false;
+    }
+
+    return _holdDirections!.contains(AxisDirection.left) || _holdDirections!.contains(AxisDirection.right);
+  }
+
   List<AxisDirection>? _holdDirections;
   Offset? _moveStartOffset;
   double? _startScrollPixels;
